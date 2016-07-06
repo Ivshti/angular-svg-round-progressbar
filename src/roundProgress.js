@@ -18,7 +18,8 @@ angular.module('angular-svg-round-progressbar').directive('roundProgress', ['$wi
             duration:       '@',
             animation:      '@',
             offset:         '@',
-            animationDelay: '@'
+            animationDelay: '@',
+            noListen: '@'
         }
     };
 
@@ -151,6 +152,15 @@ angular.module('angular-svg-round-progressbar').directive('roundProgress', ['$wi
                     doAnimation();
                 }
             };
+
+            if (scope.noListen) { 
+                Object.keys(options).forEach(function(k) {
+                    if (scope[k]) options[k] = scope[k]
+                });
+                renderState(scope.current, scope.current, true);
+                renderCircle();
+                return;
+            }
 
             var keys = Object.keys(base.scope).filter(function(key){
                 return key !== 'current';
