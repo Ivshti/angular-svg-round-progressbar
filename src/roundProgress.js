@@ -157,8 +157,12 @@ angular.module('angular-svg-round-progressbar').directive('roundProgress', ['$wi
                 Object.keys(options).forEach(function(k) {
                     if (scope[k]) options[k] = scope[k]
                 });
-                renderState(scope.current, scope.current, true);
-                renderCircle();
+                function onUpdate() {
+                    renderState(scope.current, scope.current, true);
+                    renderCircle();
+                }
+                scope.$on("$forceRoundProgressUpdate", onUpdate);
+                scope.$watch("current", onUpdate);
                 return;
             }
 
